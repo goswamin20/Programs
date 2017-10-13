@@ -1,0 +1,23 @@
+class Solution {
+    private int[] num;
+    private Random random;
+
+    public Solution(int[] nums) {
+        this.num=nums;
+        random=new Random();
+    }
+    
+    public int[] reset() {
+        return num;
+    }
+    public int[] shuffle() {
+        int[] a=num.clone();
+        for(int i=0;i<a.length;i++){
+            int x=random.nextInt(i+1);
+            int temp=a[i];
+            a[i]=a[x];
+            a[x]=temp;
+        }
+        return a;
+    }
+}

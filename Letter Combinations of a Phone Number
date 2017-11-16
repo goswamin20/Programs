@@ -1,0 +1,30 @@
+public class Solution {
+    
+    String[] s={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    
+    public List<String> letterCombinations(String digits) {
+       List<String> list=new ArrayList<String>();
+        
+        for(char d:digits.toCharArray()){
+            if(Character.isDigit(d)){
+                if(list.size()==0)
+                for(char c:s[Character.getNumericValue(d)].toCharArray()){
+                    list.add(c+"");
+                }else{
+                    List<String> l=new ArrayList<>();
+                    for(char c:s[Character.getNumericValue(d)].toCharArray()){
+                        for(String s:list){
+                            l.add(s+c);
+                        }
+                    }
+                    list=l;
+                }
+            }
+            
+        }
+        
+        return list;
+    }
+   
+    
+}

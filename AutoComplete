@@ -1,0 +1,92 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+
+public class AutoComplete {
+	/*Created class for Node of a trie data structure.
+	A typical node contains hashmap of children characters and subsrtrings, prefix value to be compared
+	and boolean flag to indicate whether this end of word or not*/
+	class Node{
+		String prefix;
+		HashMap<Character,Node> children;
+		boolean isWord;
+		Node(String prefix){
+			this.prefix=prefix;
+			children=new HashMap<>();
+			isWord=false;
+		}
+	}
+	
+	private Node trie;//create the root node for trie data structure
+	
+	
+	//auto complete method returns the fnal list of words
+	List<String> autoComplete(String[] listOfWords,String prefix){
+		List<String> list=null;
+		trie = new Node("");
+		for(String s:listOfWords){
+		insertIntoTrie(s);
+		}
+		list=getRecommendedWords(prefix);
+		return list;
+	}
+	
+
+	// this method inputs string and insert into the trie 
+	private void insertIntoTrie(String s) {
+		Node curr=trie;
+		for(int i=0;i<s.length();i++){
+			char ch=s.charAt(i);
+			if(!curr.children.containsKey(ch)){
+				curr.children.put(ch, new Node(s.substring(0, i+1)));
+			}
+			curr=curr.children.get(ch);
+		}
+		curr.isWord=true;
+	}
+	
+	//Checking for prefixes
+	private List<String> getRecommendedWords(String prefix) {
+		List<String> list=new ArrayList<>();
+		Node curr=trie;
+		for(char ch:prefix.toCharArray()){
+			if(curr.children.containsKey(ch)){
+				curr=curr.children.get(ch);
+			}else return list;
+		}
+		
+		findAllWords(list,curr);
+		return list;
+	}
+	//Finding all words that needed to be added 
+	private void findAllWords(List<String> list, Node curr) {
+		if(curr.isWord){
+			list.add(curr.prefix);
+		}
+		for (Character c : curr.children.keySet()) {
+			findAllWords(list, curr.children.get(c));
+	    }
+		
+	}
+
+
+	public static void main(String[] args) {
+		System.out.println("Enter list of words and prefix");
+		Scanner a= new Scanner(System.in);
+		List<String> list=new ArrayList<>();
+		while(a.hasNext()){
+			String str=a.nextLine();
+			if(str.isEmpty()){
+				break;
+			}
+			list.add(str);
+		}
+		String prefix=a.nextLine();
+		System.out.println(list+" ");
+		System.out.println(new AutoComplete().autoComplete(list.toArray(new String[list.size()]),prefix));
+		a.close();
+	}
+	
+}

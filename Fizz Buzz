@@ -1,0 +1,7 @@
+class Solution {
+    public List<String> fizzBuzz(int n) {
+       final IntFunction<String> func = i -> i % 15 == 0 ? "FizzBuzz" : (i % 3 == 0 ? "Fizz" : (i % 5 == 0 ? "Buzz" : String.valueOf(i)));
+        return IntStream.rangeClosed(1, n).mapToObj(func).collect(Collectors.toList());
+    }
+        
+}

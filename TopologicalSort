@@ -1,0 +1,26 @@
+import java.util.*;
+public class test {
+public static void main(String[] args) {
+	int[][] array={{1,0},{0,1}};
+	System.out.println(new test().canFinish(2,array));
+}
+	   
+		public boolean canFinish(int numCourses, int[][] prerequisites) {
+			Map<Integer,List<Integer>> map=new HashMap<>();
+	        List<Integer> list=null;
+	        for(int i=0;i<prerequisites.length;i++){
+	        	if(!map.isEmpty() && map.containsKey(prerequisites[i][0]) && map.get(prerequisites[i][0]).contains(prerequisites[i][1]))
+                    return false;
+	                if(!map.isEmpty() && map.containsKey(prerequisites[i][1])){
+	                    list=map.get(prerequisites[i][1]);
+	                }
+	                else{list=new ArrayList<>();	 
+	                }
+	                    
+	                list.add(prerequisites[i][0]);
+                 map.put(prerequisites[i][1],list);
+	        }
+	        return true;
+	    }
+	
+}

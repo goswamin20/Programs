@@ -1,0 +1,31 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Fibonacci {
+	static Map<Integer,Integer> map=new HashMap<>();
+int fib(int a){
+	if(a==0){
+		return 0;
+	}
+	if(a==1){
+		return 1;
+	}
+	if(map.containsKey(a))
+		return map.get(a);
+	
+	int x=fib(a-1)+fib(a-2);
+	map.put(a, x);
+	
+	
+	return x;
+}	
+public static void main(String[] args) {
+	System.out.println("enter number for fibonnaci:");
+	Scanner in= new Scanner(System.in);
+	int a=in.nextInt();
+	Fibonacci f=new Fibonacci();
+	System.out.println(f.fib(a));
+	in.close();
+}
+}

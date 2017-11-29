@@ -1,0 +1,85 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Trie {
+	class Node{
+		String prefix;
+		Map<Character,Node> children;
+		boolean isWord;
+		Node(String prefix){
+			this.prefix=prefix;
+			this.children=new HashMap<>();
+			this.isWord=false;
+		}
+		@Override
+		public String toString() {
+			return "prefix: "+this.prefix+"\n children:"+this.children+"\n isWord: "+this.isWord;
+		}
+	}
+	Node root=null;
+	Trie(){
+		root=new Node("");
+	}
+	void insertWordsTrie(List<String> words){
+		for(String s:words){
+			insertIntoTrie(s);
+		}
+	}
+	void insertIntoTrie(String s){
+		Node curr=root;
+		for(int i=0;i<s.length();i++){
+			char c=s.charAt(i);
+			if(curr.children.containsKey(c)){
+				curr=curr.children.get(c);
+			}else{
+				Node n=new Node(s.substring(0, i+1));
+				curr.children.put(c,n);
+				curr=n;
+			}
+		}
+		curr.isWord=true;
+		
+	}
+	List<String> searchWords(String pre){
+		List<String> list=new ArrayList<>();
+		Node curr=root;
+		for(char i:pre.toCharArray()){
+			if(curr.children.containsKey(i)){
+				if(pre.equals(curr.prefix+i)){
+					//System.out.println("m here"+curr.prefix+i);
+					findAllwords(curr.children.get(i),list);
+				}
+				curr=curr.children.get(i);
+			}else{
+				break;
+			}
+		}
+		return list;
+	}
+	private void findAllwords(Node curr, List<String> list) {
+		if(curr.children.isEmpty()){
+			list.add(curr.prefix);
+			return;
+		}
+		for(char c:curr.children.keySet()){
+			
+			findAllwords(curr.children.get(c),list);
+		}
+	}
+	List<String> autocomplete(List<String> words,String prefix){
+		insertWordsTrie(words);
+		//print();
+		return searchWords(prefix);
+	}
+	void print(){
+		//insertWordsTrie(words);
+		System.out.println(root);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(new Trie().autocomplete(Arrays.asList("abc","abbc","acd"),"a"));
+	}
+}

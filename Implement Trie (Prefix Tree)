@@ -1,0 +1,75 @@
+class Trie {
+
+    /** Initialize your data structure here. */
+    class TrieNode{
+        String prefix;
+        HashMap<Character,TrieNode> children;
+        boolean isWord;
+        TrieNode(String prefix){
+            this.prefix=prefix;
+            children=new HashMap<>();
+            isWord=false;
+        }
+        
+    }
+    
+    
+    TrieNode root=null;
+    public Trie() {
+        root=new TrieNode("");
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        TrieNode curr=root;
+        for(int i=0;i<word.length();i++){
+            if(curr.children.containsKey(word.charAt(i))){
+                curr=curr.children.get(word.charAt(i));
+            }else{
+                TrieNode n=new TrieNode(word.substring(0,i+1));
+                curr.children.put(word.charAt(i),n);
+                curr=n;
+            }
+        }
+        curr.isWord=true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        TrieNode curr=root;
+        for(int i=0;i<word.length();i++){
+            if(curr.children.containsKey(word.charAt(i))){
+                curr=curr.children.get(word.charAt(i));
+                }
+            else{
+                return false;
+            }
+        }
+        return curr.isWord;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        TrieNode curr=root;
+        for(int i=0;i<prefix.length();i++){
+            if(curr.children.containsKey(prefix.charAt(i))){
+                if(prefix.equals(curr.prefix+prefix.charAt(i))){
+                    return true;
+                }
+                curr=curr.children.get(prefix.charAt(i));
+                }
+            else{
+                break;
+            }
+        }
+        return false;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */

@@ -1,0 +1,41 @@
+class LRUCache {
+    HashMap<Integer,Integer> map =new HashMap<>();
+    int capacityg;
+    ArrayList<Integer> q=new ArrayList<>();
+    public LRUCache(int capacity) {
+        capacityg=capacity;
+    }
+    
+    public int get(int key) {
+        if(map.containsKey(key) && q.indexOf(key)!=-1) {
+            q.remove(q.indexOf(key));
+            q.add(0,key);
+            return map.get(key);
+        }
+        else
+            return -1;
+    }
+    
+    public void put(int key, int value) {
+        if(map.containsKey(key)){
+            q.remove(q.indexOf(key));
+           
+        }else if(map.size()>=capacityg)
+        {
+            int x=q.get(q.size()-1);
+            q.remove(q.size()-1);
+            map.remove(x);
+        }
+           q.add(0,key);
+           map.put(key,value); 
+            
+        
+    }
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */

@@ -1,0 +1,21 @@
+class Solution {
+    public void reverseWords(char[] str) {
+         int l = 0, r = 0;
+        while (r < str.length) {
+            while (r < str.length && str[r] != ' ') r++;
+            reverse(str, l, r - 1);
+            while (r < str.length && str[r] == ' ') r++;
+            l = r;
+        }
+        reverse(str, 0, str.length - 1);
+    }
+    
+    private void reverse(char[] str, int l, int r) {
+        while (l < r) {
+            char temp = str[l];
+            str[l++] = str[r];
+            str[r--] = temp;
+        }
+        
+    }
+}

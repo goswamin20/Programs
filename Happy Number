@@ -1,0 +1,22 @@
+class Solution {
+    public boolean isHappy(int n) {
+        HashSet<Integer> set=new HashSet<>();
+        set.add(n);
+        while(n!=1){
+            n=squareAndSum(n);
+            if(set.contains(n) && n!=1){
+                return false;
+            }
+            set.add(n);
+        }
+        return true;
+    }
+    private int squareAndSum(int num){
+        int result=0;
+        while(num>0){
+            result+=(num%10) *(num%10);
+            num=num/10;
+        }
+        return result;
+    }
+}

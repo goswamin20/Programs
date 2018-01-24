@@ -1,0 +1,44 @@
+public class QuickSort {
+	
+	public static void main(String[] args) {
+        int[] A = {55, 19, 12, 5, 12, 8, 7, 4, 21, 2, 6, 11};
+        randomizedQuickSort(A,0,A.length - 1);
+        printA(A);
+    }
+
+    public static void randomizedQuickSort(int[] A, int p, int r) {
+        if (p < r) {
+            int q = randomizedPartition(A,p,r);
+            randomizedQuickSort(A,p,q - 1);
+            randomizedQuickSort(A,q + 1,r);
+        }
+    }
+
+    public static int randomizedPartition(int[] A, int p, int r) {
+        int k = (int)Math.floor(Math.random() * (r - p + 1) + p);
+        swap(A,r,k);
+        int x = A[r];
+        int i = p;
+
+        for (int j = p; j < r; j++) {
+            if (A[j] <= x) {
+                swap(A,i,j);
+                i = i + 1;
+            }
+        }
+        swap(A,i,r);
+        return i;
+    }
+
+    public static void swap(int[] A, int firstIndex, int secondIndex) {
+        int temp = A[firstIndex];
+        A[firstIndex] = A[secondIndex];
+        A[secondIndex] = temp;
+    }
+
+    public static void printA(int[] A) {
+        for( int i = 0; i < A.length; i++) {
+            System.out.print(A[i] + " ");
+        }
+    }
+	}

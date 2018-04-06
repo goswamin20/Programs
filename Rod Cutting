@@ -1,0 +1,35 @@
+
+public class Lab9 {
+	static void OPT(double price_list[],int n)
+    {
+		double Mem[] = new double[n+1];
+		int s[] = new int[n+1];
+        Mem[0] = 0;
+        
+        for (int i = 1; i<=n; i++)
+        {
+        		double max_val = Integer.MIN_VALUE;
+            for (int j = 0; j < i; j++) {
+            		if(max_val < (price_list[j] + Mem[i-j-1])-1) {
+            			max_val = price_list[j] + Mem[i-j-1] - 1;
+            			s[i] = j+1;
+            		}
+            }	
+                
+            Mem[i] = max_val;
+        }
+        System.out.println("Maximum Profit " + (Mem[n]+1));
+      
+        int i = n;
+        while(i > 0) {
+        		System.out.print(s[i]+" ");
+        		i = i-s[i];
+        }
+    }
+
+	public static void main(String[] args) {
+		double pl[] = new double[] {3, 4.5, 8, 9, 10, 17, 17, 20};
+        OPT(pl, pl.length);
+
+	}
+	}

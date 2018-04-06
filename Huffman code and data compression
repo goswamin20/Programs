@@ -1,0 +1,74 @@
+import java.util.PriorityQueue;
+import java.util.Comparator;
+class HNode
+{
+	char symbol;
+	int freq;
+	HNode left;
+	HNode right;
+}
+
+class NodeComparator implements Comparator<HNode> {
+    public int compare(HNode x, HNode y)
+    {
+ 
+        return x.freq - y.freq;
+    }
+
+}
+public class Lab8 {
+	static void printTree(HNode T, String s)
+	{
+		if (T.left==null && T.right==null && Character.isLetter(T.symbol))
+		{
+	
+	            System.out.println("Codeword for "+T.symbol + " is: " + s);
+	 
+	            return;
+	        }
+		
+		printTree(T.left, s + "0");
+		printTree(T.right, s + "1");
+	}
+	public static void main(String[] args) {
+		int n = 6;
+        char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f' };
+        int[] charfreq = { 5, 9, 12, 13, 16, 45 };
+        PriorityQueue<HNode> PQ
+        = new PriorityQueue<HNode>(n, new NodeComparator());
+        for (int i = 0; i < n; i++) {
+            HNode hn = new HNode();
+ 
+            hn.symbol= charArray[i];
+            hn.freq = charfreq[i];
+ 
+            hn.left = null;
+            hn.right = null;
+            PQ.add(hn);
+        }
+        
+        
+        HNode root = null;
+   	 
+        while (PQ.size() > 1) {
+ 
+        
+            HNode x = PQ.peek();
+            PQ.poll();
+            HNode y = PQ.peek();
+            PQ.poll();
+            HNode z = new HNode();
+            z.freq = x.freq + y.freq;
+            z.symbol = '-';
+            z.left = x;
+            z.right = y;
+            root = z;
+            PQ.add(z);
+        }
+ 
+
+        printTree(root, "");
+
+	
+}
+}
